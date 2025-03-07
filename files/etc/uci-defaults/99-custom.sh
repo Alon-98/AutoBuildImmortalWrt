@@ -12,13 +12,13 @@ uci set "dhcp.@domain[-1].name=time.android.com"
 uci set "dhcp.@domain[-1].ip=203.107.6.88"
 
 # 检查配置文件pppoe-settings是否存在 该文件由build.sh动态生成
-SETTINGS_FILE="/etc/config/pppoe-settings"
-if [ ! -f "$SETTINGS_FILE" ]; then
-    echo "PPPoE settings file not found. Skipping." >> $LOGFILE
-else
+#SETTINGS_FILE="/etc/config/pppoe-settings"
+#if [ ! -f "$SETTINGS_FILE" ]; then
+#    echo "PPPoE settings file not found. Skipping." >> $LOGFILE
+#else
    # 读取pppoe信息($enable_pppoe、$pppoe_account、$pppoe_password)
-   . "$SETTINGS_FILE"
-fi
+#   . "$SETTINGS_FILE"
+#fi
 
 # 计算网卡数量
 #count=0
@@ -87,10 +87,10 @@ ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
       #uci set network.wan.auto='1'
       # 设置ipv6 默认不配置协议
       uci set network.wan6.proto='none'
-      echo "PPPoE configuration completed successfully." >> $LOGFILE
-   else
-      echo "PPPoE is not enabled. Skipping configuration." >> $LOGFILE
-   fi
+      #echo "PPPoE configuration completed successfully." >> $LOGFILE
+   #else
+      #echo "PPPoE is not enabled. Skipping configuration." >> $LOGFILE
+   #fi
 fi
 
 
