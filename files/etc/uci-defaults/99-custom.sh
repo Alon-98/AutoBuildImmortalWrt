@@ -17,6 +17,10 @@ uci set network.lan.ipaddr='10.10.10.220'
 uci set network.lan.netmask='255.255.255.0'
 uci set dhcp.lan.ignore='1'
 
+#设置LAN 网关和DNS
+uci set network.lan.gateway='10.10.10.10'
+uci set network.lan.dns='10.10.10.10'
+
  #提取第一个接口为LAN
    lan=$(echo "awk '{print $1}')
    # 剩余接口保留给LAN
