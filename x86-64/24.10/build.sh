@@ -25,6 +25,11 @@ echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.defa
 ./scripts/feeds update istore
 ./scripts/feeds install -d y -p istore luci-app-store
 
+echo >> feeds.conf.default
+echo 'src-git  adguardhome https://github.com/rufengsuixing/luci-app-adguardhome.git;main' >> feeds.conf.default
+./scripts/feeds update adguardhome
+./scripts/feeds install -d y -p adguardhome luci-app-adguardhome
+
 
 
 # 定义所需安装的包列表 下列插件你都可以自行删减
