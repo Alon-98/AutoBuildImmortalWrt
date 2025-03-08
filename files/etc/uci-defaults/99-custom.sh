@@ -1,8 +1,8 @@
 #!/bin/sh
 # 99-custom.sh 就是immortalwrt固件首次启动时运行的脚本 位于固件内的/etc/uci-defaults/99-custom.sh
 # Log file for debugging
-LOGFILE="/tmp/uci-defaults-log.txt"
-echo "Starting 99-custom.sh at $(date)" >> $LOGFILE
+#LOGFILE="/tmp/uci-defaults-log.txt"
+#echo "Starting 99-custom.sh at $(date)" >> $LOGFILE
 # 设置默认防火墙规则，方便虚拟机首次访问 WebUI
 uci set firewall.@zone[1].input='ACCEPT'
 
@@ -10,6 +10,17 @@ uci set firewall.@zone[1].input='ACCEPT'
 uci add dhcp domain
 uci set "dhcp.@domain[-1].name=time.android.com"
 uci set "dhcp.@domain[-1].ip=203.107.6.88"
+
+#设置LAN IP地址关闭LAN DHCP功能
+uci set network.lan.proto='static'
+uci set network.lan.ipaddr='10.10.10.220'
+uci set network.lan.netmask='255.255.255.0'
+uci set dhcp.lan.ignore='1'
+
+ #提取第一个接口为LAN
+   lan=$(echo "awk '{print $1}')
+   # 剩余接口保留给LAN
+   lan=$(echo "cut -d ' ' -f2-)
 
 # 检查配置文件pppoe-settings是否存在 该文件由build.sh动态生成
 #SETTINGS_FILE="/etc/config/pppoe-settings"
@@ -26,14 +37,14 @@ uci set "dhcp.@domain[-1].ip=203.107.6.88"
 #for iface in /sys/class/net/*; do
   #iface_name=$(basename "$iface")
   # 检查是否为物理网卡（排除回环设备和无线设备）
-  if [ -e "$iface/device" ] && echo "$iface_name" | grep -Eq '^eth|^en'; then
-    count=$((count + 1))
-    ifnames="$ifnames $iface_name"
-  fi
+  #if [ -e "$iface/device" ] && echo "$iface_name" | grep -Eq '^eth|^en'; then
+   # count=$((count + 1))
+    #ifnames="$ifnames $iface_name"
+  #fi
 #done
 # 删除多余空格
 #ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
- ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
+ #ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
 
 # 网络设置
 #if [ "$count" -eq 1 ]; then
@@ -47,9 +58,9 @@ uci set "dhcp.@domain[-1].ip=203.107.6.88"
    # 提取第一个接口作为WAN
    #wan_ifname=$(echo "$ifnames" | awk '{print $1}')
    #提取第一个接口为LAN
-   lan_ifname=$(echo "$ifnames" | awk '{print $1}')
+   #lan_ifname=$(echo "$ifnames" | awk '{print $1}')
    # 剩余接口保留给LAN
-   lan_ifnames=$(echo "$ifnames" | cut -d ' ' -f2-)
+   #lan_ifnames=$(echo "$ifnames" | cut -d ' ' -f2-)
    # 设置WAN接口基础配置
    #uci set network.wan=interface
    # 提取第一个接口作为WAN
@@ -74,12 +85,12 @@ uci set "dhcp.@domain[-1].ip=203.107.6.88"
       #echo "ports of device 'br-lan' are update." >> $LOGFILE
    #fi
    # LAN口设置静态IP
-   uci set network.lan.proto='static'
+   #uci set network.lan.proto='static'
    # 多网口设备 支持修改为别的ip地址
-   uci set network.lan.ipaddr='10.10.10.220'
-   uci set network.lan.netmask='255.255.255.0'
-   uci set dhcp.lan.ignore='1'
-   echo "set 10.10.10.220 at $(date)" >> $LOGFILE
+   #uci set network.lan.ipaddr='10.10.10.220'
+   #uci set network.lan.netmask='255.255.255.0'
+   #uci set dhcp.lan.ignore='1'
+   #echo "set 10.10.10.220 at $(date)" >> $LOGFILE
    # 判断是否启用 PPPoE
    #echo "print enable_pppoe value=== $enable_pppoe" >> $LOGFILE
    #if [ "$enable_pppoe" = "yes" ]; then
@@ -97,7 +108,7 @@ uci set "dhcp.@domain[-1].ip=203.107.6.88"
       #echo "PPPoE is not enabled. Skipping configuration." >> $LOGFILE
    #fi
    #fi
-fi
+#fi
 
 
 # 设置所有网口可访问网页终端
