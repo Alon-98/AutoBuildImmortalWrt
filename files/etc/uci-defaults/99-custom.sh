@@ -36,10 +36,13 @@ ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
 
 # 网络设置
 #if [ "$count" -eq 1 ]; then
+if [ "$count" -eq 1 ]; then
    # 单网口设备 类似于NAS模式 动态获取ip模式 具体ip地址取决于上一级路由器给它分配的ip 也方便后续你使用web页面设置旁路由
    # 单网口设备 不支持修改ip 不要在此处修改ip 
    #uci set network.lan.proto='dhcp'
+   uci set network.lan.proto='static'
 #elif [ "$count" -gt 1 ]; then
+ elif [ "$count" -gt 1 ]; then
    # 提取第一个接口作为WAN
    #wan_ifname=$(echo "$ifnames" | awk '{print $1}')
    #提取第一个接口为LAN
@@ -92,6 +95,7 @@ ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
    #else
       #echo "PPPoE is not enabled. Skipping configuration." >> $LOGFILE
    #fi
+   fi
 fi
 
 
