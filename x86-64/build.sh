@@ -26,7 +26,7 @@ echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.defa
 ./scripts/feeds install -d y -p istore luci-app-store
 
 echo >> feeds.conf.default
-echo 'src-git  adguardhome https://github.com/rufengsuixing/luci-app-adguardhome.git;main' >> feeds.conf.default
+echo 'src-git  adguardhome https://github.com/rufengsuixing/luci-app-adguardhome.git' >> feeds.conf.default
 ./scripts/feeds update adguardhome
 ./scripts/feeds install -d y -p adguardhome luci-app-adguardhome
 
