@@ -74,7 +74,8 @@ ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
    # 多网口设备 支持修改为别的ip地址
    uci set network.lan.ipaddr='10.10.10.220'
    uci set network.lan.netmask='255.255.255.0'
-   echo "set 10.10.10.220 at $(date)" >> $LOGFILE
+   uci set dhcp.lan.ignore='1'
+   #echo "set 10.10.10.220 at $(date)" >> $LOGFILE
    # 判断是否启用 PPPoE
    #echo "print enable_pppoe value=== $enable_pppoe" >> $LOGFILE
    #if [ "$enable_pppoe" = "yes" ]; then
